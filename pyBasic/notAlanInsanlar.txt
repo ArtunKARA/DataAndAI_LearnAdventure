@@ -1,0 +1,3 @@
+Bahar,43,50,
+Furkan,70,90,
+Murat,95,10,
