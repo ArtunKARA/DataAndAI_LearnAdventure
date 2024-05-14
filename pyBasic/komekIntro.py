@@ -648,5 +648,275 @@ ham.icerik_cikar(20, "Domates")
 ham.ozellik_guncelle("Big Mac", 60, ["Soğan", "Et", "Turşu", "Ekmek"])
 ham.goster()
 
-#%% 
+#%% mat clası
 
+class Mat():
+    pi = 3.141592653589793
+    
+    def topla(self,s1,s2): #clastan çağrılırsa method olur
+        return s1 + s2
+    
+    def cikar(self,s1,s2):
+        return s1 - s2
+    
+    def bol(self,s1,s2):
+        return s1 / s2
+    
+    def carp(self,s1,s2):
+        return s1 * s2
+    
+    
+        
+mat = Mat()
+print(mat.topla(1, 2) + 5)
+
+        
+class Matematik():
+    pi = 3.141592653589793
+    
+    def topla(s1,s2): #clastan çağrılırsa method olur
+        return s1 + s2
+    
+print(Matematik.topla(5,4))
+
+
+class Mate():
+    pi = 3.141592653589793
+    
+    def __init__(self,s1,s2):
+        self.s1 = s1
+        self.s2 = s2
+        
+    def topla(self):
+        print(self.s1 + self.s2)
+        
+    def cikar(self):
+        print(self.s1 + self.s2)
+    
+mat = Mate(2,3)
+mat.topla()
+
+#%% private public get set
+
+class Banka:
+    def __init__(self,adi,para_mik):
+        self.adi = adi
+        self.__para_mik = para_mik
+        
+    def getPara(self):
+        return self.__para_mik
+    
+    def setPara(self):
+        return self.__para_mik + 500
+    
+    def __pirvateFunc(self):
+        print("Cant use")
+        
+    def getPrivateFunc(self):
+        return self.__pirvateFunc()
+    
+m1 = Banka("Acun", 50000)
+m2 = Banka("İcardi", 40000)
+
+m1.getPrivateFunc()    
+print(m2.__para_mik)
+#%% parent class
+
+class Hayvanlar():
+    
+    def __int__():
+        print("Havanlar çağırıldı")
+    def yurumek():
+        print("Yürümekteyiz")
+
+class Kuş(Hayvanlar):
+    
+    def __init__():
+        print("Kuç çağırıldı")
+    def ucmak():
+        print("Kuşum uçarım")
+
+class Maymun(Kuş):
+
+    def __init__():
+        print("Maymun çağırıldı")
+    def tırmanmak():
+        print("Maymunum trımanırım")
+
+m1 = Maymun()
+m1.yurumek()
+
+kuş1 = Kuş()
+kuş1.yürümek()
+#%% polymofizim
+
+class  CompEng:
+    def __init__(self,maas):
+        self.maas = maas
+    def zam(self,zam_mik):
+        self.maas += (zam_mik / 2)
+        return self.maas
+
+class EEE:
+    def __init__(self,maas):
+        self.maas = maas
+    def zam(self,zam_mik):
+        self.maas += (zam_mik / 3)
+        return self.maas
+
+class Industrial:
+    def __init__(self,maas):
+        self.maas = maas
+    def zam(self,zam_mik):
+        self.maas += (zam_mik / 4)
+        return self.maas
+        
+c1 = CompEng(5000)
+print(c1.zam(7000))
+
+e2 = EEE(5001)
+print(e2.zam(8000))
+
+#%% hamburger hambuger kofte hamburger tavuk
+
+class Hamburger():
+    def __init__(self, ad, fiyat):
+        self.ad = ad
+        self.fiyat = fiyat
+
+class HamburgerKofte(Hamburger):
+    
+    def __init__(self, ad, fiyat, icerikler=None):
+        super().__init__(ad, fiyat)
+        self.icerikler = icerikler if icerikler is not None else []
+    
+    def icerik_ekle(self, fiyat, icerik):
+        self.fiyat += fiyat
+        self.icerikler.append(icerik)
+        print(f"Yeni içerikler: {', '.join(self.icerikler)} - Fiyat: {self.fiyat} TL")
+
+    def icerik_cikar(self, fiyat, icerik):
+        if icerik in self.icerikler:
+            self.fiyat -= fiyat
+            self.icerikler.remove(icerik)
+            print(f"{icerik} çıkarıldı - Yeni içerikler: {', '.join(self.icerikler)} - Fiyat: {self.fiyat} TL")
+        else:
+            print(f"{icerik} listede bulunamadı.")
+
+    def goster(self):
+        print(f"{self.ad} - İçerikler: {', '.join(self.icerikler)} - Fiyat: {self.fiyat} TL")
+
+    def ozellik_guncelle(self, ad, fiyat, icerikler):
+        self.ad = ad
+        self.fiyat = fiyat
+        self.icerikler = icerikler
+        print("Hamburger özellikleri güncellendi.")
+        
+class HamburgerTavuk(Hamburger):
+    
+    def __init__(self, ad, fiyat, icerikler=None):
+        super().__init__(ad, fiyat)
+        self.icerikler = icerikler if icerikler is not None else []
+    
+    def icerik_ekle(self, fiyat, icerik):
+        self.fiyat += fiyat
+        self.icerikler.append(icerik)
+        print(f"Yeni içerikler: {', '.join(self.icerikler)} - Fiyat: {self.fiyat} TL")
+
+    def icerik_cikar(self, fiyat, icerik):
+        if icerik in self.icerikler:
+            self.fiyat -= fiyat
+            self.icerikler.remove(icerik)
+            print(f"{icerik} çıkarıldı - Yeni içerikler: {', '.join(self.icerikler)} - Fiyat: {self.fiyat} TL")
+        else:
+            print(f"{icerik} listede bulunamadı.")
+
+    def goster(self):
+        print(f"{self.ad} - İçerikler: {', '.join(self.icerikler)} - Fiyat: {self.fiyat} TL")
+
+    def ozellik_guncelle(self, ad, fiyat, icerikler):
+        self.ad = ad
+        self.fiyat = fiyat
+        self.icerikler = icerikler
+        print("Hamburger özellikleri güncellendi.")
+
+def anaMenu():
+    print("1. Köfte Hamburger")
+    print("2. Tavuk Hamburger")
+    print("3. Çıkış")
+
+def kofteHamburgerMenu():
+    print("1. İçerik Ekle")
+    print("2. İçerik Çıkar")
+    print("3. Göster")
+    print("4. Özellikleri Güncelle")
+    print("5. Ana Menü")
+
+def tavukHamburgerMenu():
+    print("1. İçerik Ekle")
+    print("2. İçerik Çıkar")
+    print("3. Göster")
+    print("4. Özellikleri Güncelle")
+    print("5. Ana Menü")
+
+def main():
+    while True:
+        anaMenu()
+        secim = input("Seçiminizi yapın: ")
+        if secim == "1":
+            print("Köfte Hamburger Menüsü")
+            kofteHamburger = HamburgerKofte("Kofte Hamburger", 10)
+            while True:
+                kofteHamburgerMenu()
+                secim = input("Seçiminizi yapın: ")
+                if secim == "1":
+                    icerik = input("Eklemek istediğiniz içeriği girin: ")
+                    fiyat = float(input("İçeriğin fiyatını girin: "))
+                    kofteHamburger.icerik_ekle(fiyat, icerik)
+                elif secim == "2":
+                    icerik = input("Çıkarmak istediğiniz içeriği girin: ")
+                    fiyat = float(input("İçeriğin fiyatını girin: "))
+                    kofteHamburger.icerik_cikar(fiyat, icerik)
+                elif secim == "3":
+                    kofteHamburger.goster()
+                elif secim == "4":
+                    ad = input("Yeni ismi girin: ")
+                    fiyat = float(input("Yeni fiyatı girin: "))
+                    icerikler = input("Yeni içerikleri girin (virgülle ayırın): ").split(",")
+                    kofteHamburger.ozellik_guncelle(ad, fiyat, icerikler)
+                elif secim == "5":
+                    break
+                else:
+                    print("Geçersiz seçim!")
+        elif secim == "2":
+            print("Tavuk Hamburger Menüsü")
+            tavukHamburger = HamburgerTavuk("Davuk Hamburger", 10)
+            while True:
+                kofteHamburgerMenu()
+                secim = input("Seçiminizi yapın: ")
+                if secim == "1":
+                    icerik = input("Eklemek istediğiniz içeriği girin: ")
+                    fiyat = float(input("İçeriğin fiyatını girin: "))
+                    tavukHamburger.icerik_ekle(fiyat, icerik)
+                elif secim == "2":
+                    icerik = input("Çıkarmak istediğiniz içeriği girin: ")
+                    fiyat = float(input("İçeriğin fiyatını girin: "))
+                    tavukHamburger.icerik_cikar(fiyat, icerik)
+                elif secim == "3":
+                    tavukHamburger.goster()
+                elif secim == "4":
+                    ad = input("Yeni ismi girin: ")
+                    fiyat = float(input("Yeni fiyatı girin: "))
+                    icerikler = input("Yeni içerikleri girin (virgülle ayırın): ").split(",")
+                    tavukHamburger.ozellik_guncelle(ad, fiyat, icerikler)
+                elif secim == "5":
+                    break
+                else:
+                    print("Geçersiz seçim!")
+        elif secim == "3":
+            print("Çıkış yapılıyor...")
+            break
+        else:
+            print("Geçersiz seçim!")
+
+main()
