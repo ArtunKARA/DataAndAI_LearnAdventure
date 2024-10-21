@@ -1,0 +1,49 @@
+- Win Dosya Erişimi
+cp /mnt/c/Users/Artun/Desktop/Dosyalar/Okul/BigData/Odev1/News_Category_Dataset_v3.json ~/News_Category_Dataset_v3.json
+
+- Dosya Taşıma
+hadoop fs -put /path/to/your/News_Category_Dataset_v3.json /user/yourusername/input/
+
+
+- HDFS Üzerinde Bir Dizin Oluşturma 
+hadoop fs -mkdir -p /user/yourusername/input
+hdfs fs -mkdir /user/yourusername/output
+
+- HDFS Üzerinde Bir Dosya Yükleme
+hdfs dfs -put ~/News_Category_Dataset_v3.json /user/yourusername/input
+
+- Dosya Kontrol
+hdfs fs -ls /user/yourusername/input
+
+
+
+- MapReduce İş Akışını Hadoop Üzerinde Çalıştırma
+hadoop jar /home/hadoop/hadoop-3.3.6/share/hadoop/tools/lib/hadoop-streaming-3.3.6.jar \
+-files /mnt/local/path/to/Map.py,/mnt/local/path/to/Reduce.py \
+-mapper "python3 Map.py" \
+-reducer "python3 Reduce.py" \
+-input /user/yourusername/input/News_Category_Dataset_v3.json \
+-output /user/yourusername/output
+
+
+-Çıktı Dosyasını Silme
+hadoop fs -rm -r /user/artun/output
+
+
+
+- Çıktı Dosyalarını Listeleme
+hadoop fs -ls /user/artun/output/
+
+-Çıktı Dosyalarını Görüntüleme
+hadoop fs -cat /user/artun/output/part-*
+
+- Dosyaları Çalıştırma 
+hadoop jar /home/hadoop/hadoop-3.3.6/share/hadoop/tools/lib/hadoop-streaming-3.3.6.jar \
+-files /mnt/c/Users/Artun/Desktop/Dosyalar/Okul/BigData/Odev1/Map.py,/mnt/c/Users/Artun/Desktop/Dosyalar/Okul/BigData/Odev1/Reduce.py \
+-mapper "python3 Map.py" \
+-reducer "python3 Reduce.py" \
+-input /user/artun/input/News_Category_Dataset_v3.json \
+-output /user/artun/output
+
+hadoop fs -put /mnt/c/Users/Artun/Desktop/Dosyalar/Okul/BigData/Odev1/News_Category_Dataset_v3.json /user/artun/input/
+
