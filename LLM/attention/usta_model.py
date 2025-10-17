@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 from usta_multi_head_attention import UstaMultiHeadAttention
-
+from usta_layer_norm import UstaLayerNorm
 
 def get_rotary_position_encoding(input: torch.Tensor, base=10000, device="cpu"):
   # input: Şeklî (uzunluk, genişlik) olan bir tablo gibi düşün.
@@ -66,8 +66,11 @@ class UstaModel(nn.Module):
     self.pos_embedding = nn.Embedding(vocab_size, embedding_dim)
     self.get_pos = get_rotary_position_encoding
     self.self_attation = UstaMultiHeadAttention(embedding_dim, embedding_dim, context_length, num_heads, dropout_rate=0.5)
+    self.norm = UstaLayerNorm(embedding_dim)
 
   def forward(self, x: torch.Tensor):
     x = self.embedding(x) # dictionary meaning of the tokens (words)
-    x = self.self_attation(x) 
+    x = self.get_pos(x) 
+    x = self.self_attation(x)
+    x = self.norm(x)
     return x
