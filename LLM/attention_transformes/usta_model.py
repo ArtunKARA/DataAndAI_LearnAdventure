@@ -1,8 +1,11 @@
 import torch
 import torch.nn as nn
 
-from usta_multi_head_attention import UstaMultiHeadAttention
+
 from usta_layer_norm import UstaLayerNorm
+from usta_decoder_block import UstaDecoderBlock
+from usta_embedding import UstaEmbedding
+
 
 def get_rotary_position_encoding(input: torch.Tensor, base=10000, device="cpu"):
   # input: Şeklî (uzunluk, genişlik) olan bir tablo gibi düşün.
@@ -58,19 +61,20 @@ def get_rotary_position_encoding(input: torch.Tensor, base=10000, device="cpu"):
 
 
 class UstaModel(nn.Module):
-  def __init__(self, vocab_size, embedding_dim, num_heads, context_length ):
+  def __init__(self, vocab_size, embedding_dim, num_heads, context_length, num_layers):
     super().__init__()
 
-    self.embedding = nn.Embedding(vocab_size, embedding_dim)
-    #Dont use it only example
-    self.pos_embedding = nn.Embedding(vocab_size, embedding_dim)
-    self.get_pos = get_rotary_position_encoding
-    self.self_attation = UstaMultiHeadAttention(embedding_dim, embedding_dim, context_length, num_heads, dropout_rate=0.5)
-    self.norm = UstaLayerNorm(embedding_dim)
+    self.embedding = UstaEmbedding(vocab_size, embedding_dim, context_length)
+    self.layers = nn.Sequential(
+      *[UstaDecoderBlock(embedding_dim, num_heads, context_length) for _ in range(num_layers)]
+    )
+
+    self.lm_head = nn.Linear(embedding_dim, vocab_size)
 
   def forward(self, x: torch.Tensor):
     x = self.embedding(x) # dictionary meaning of the tokens (words)
-    x = self.get_pos(x) 
-    x = self.self_attation(x)
-    x = self.norm(x)
+    
+    x = self.layers(x)
+    x = self.lm_head(x)
+
     return x
